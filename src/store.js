@@ -1,16 +1,19 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { fetchCircuits } from './api';
+import { fetchCircuits, fetchTopAnime } from './api';
 
 // actions
 export const initializeSession = () => ({ type: 'INITIALIZE_SESSION' });
 
-const storeCircuitData = circuitData => ({ circuitData, type: 'STORE_CIRCUIT_DATA' });
-
-// thunks - function that returns a function
+// thunks - function that returns a function - use in same contract as actions
 export const fetchCircuitData = () => async (dispatch) => {
-  const circuitData = await fetchCircuits();
-  return dispatch(storeCircuitData(circuitData));
+  const data = await fetchCircuits();
+  return dispatch({ data, type: 'STORE_CIRCUIT_DATA' });
+};
+
+export const fetchAnimeData = () => async (dispatch) => {
+  const data = await fetchTopAnime();
+  return dispatch({ data, type: 'GET_ANIME_DATA' });
 };
 
 // reducers
@@ -23,10 +26,19 @@ const sessionReducer = (state = false, action) => {
   }
 };
 
-const circuitDataReducer = (state = [], action) => {
+const circuitsReducer = (state = [], action) => {
   switch (action.type) {
     case 'STORE_CIRCUIT_DATA':
-      return action.circuitData;
+      return action.data;
+    default:
+      return state;
+  }
+};
+
+const topAnimeReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'GET_ANIME_DATA':
+      return action.data;
     default:
       return state;
   }
@@ -35,7 +47,8 @@ const circuitDataReducer = (state = [], action) => {
 // combine reducers and namespace the redux state
 const reducer = combineReducers({
   loggedIn: sessionReducer,
-  circuitData: circuitDataReducer,
+  circuits: circuitsReducer,
+  topAnime: topAnimeReducer,
 });
 
 export default initialState => createStore(reducer, initialState, applyMiddleware(thunkMiddleware));

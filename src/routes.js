@@ -2,6 +2,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
 import Secret from './components/Secret';
+import Anime from './components/Anime';
 
 export default [
   {
@@ -22,6 +23,11 @@ export default [
   {
     path: '/secret',
     component: Secret,
+    exact: true,
+  },
+  {
+    path: '/anime',
+    component: Anime,
     exact: true,
   },
 ];

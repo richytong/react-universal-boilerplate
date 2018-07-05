@@ -6,6 +6,8 @@ export const fetchCircuits = async () => {
   return jsonData.MRData.CircuitTable.Circuits;
 };
 
-export const otherFetch = () => {
-  return fetch();
+export const fetchTopAnime = async () => {
+  const res = await fetch('https://api.jikan.moe/top/anime');
+  const jsonData = await res.json();
+  return jsonData.top;
 };

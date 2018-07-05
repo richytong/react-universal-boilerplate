@@ -23,7 +23,7 @@ class Home extends React.Component {
           <title>Circuits</title>
           <meta name="description" content="This is a proof of concept for React SSR, Home" />
         </Helmet>
-        
+
         <h2>F1 2018 Season Calendar</h2>
         <ul>{ circuitsList }</ul>
       </div>
@@ -34,7 +34,7 @@ class Home extends React.Component {
 Home.serverFetch = fetchCircuitData; // static declaration of data requirements
 
 const mapStateToProps = state => ({
-  circuits: state.circuitData,
+  circuits: state.circuits,
 });
 
 const mapDispatchToProps = {
