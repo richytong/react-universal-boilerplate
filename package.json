@@ -1,7 +1,6 @@
 {
   "name": "react-universal-boilerplate",
   "version": "1.0.0",
-  "description": "",
   "main": "webpack.config.js",
   "scripts": {
     "build": "NODE_ENV=production webpack --progress --mode production --devtool source-map",
@@ -53,28 +52,5 @@
     "webpack-cli": "^2.0.9",
     "webpack-dev-server": "^3.1.4"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "Firefox ESR"
-  ],
-  "bundlesize": [
-    {
-      "path": "./dist/js/app.bundle.js",
-      "maxSize": "170 kB"
-    },
-    {
-      "path": "./dist/js/lib.bundle.js",
-      "maxSize": "110 kB"
-    }
-  ],
-  "jest": {
-    "transform": {
-      "^.+\\.jsx$": "babel-jest",
-      "^.+\\.js$": "babel-jest"
-    },
-    "setupTestFrameworkScriptFile": "<rootDir>/test-config/test-setup.js"
-  },
-  "author": "",
   "license": "MIT"
 }
