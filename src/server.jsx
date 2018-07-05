@@ -46,7 +46,6 @@ app.get('/*', async (req, res) => {
       <meta charset="utf-8">
       ${helmetData.title.toString()}
       ${helmetData.meta.toString()}
-      <title>React SSR</title>
     </head>
     
     <body>

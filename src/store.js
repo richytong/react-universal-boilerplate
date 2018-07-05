@@ -2,14 +2,18 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { fetchCircuits } from './api';
 
-export const initializeSession = () => ({
-  type: 'INITIALIZE_SESSION',
-});
+// actions
+export const initializeSession = () => ({ type: 'INITIALIZE_SESSION' });
 
-const storeData = data => ({ data, type: 'STORE_DATA' });
+const storeCircuitData = circuitData => ({ circuitData, type: 'STORE_CIRCUIT_DATA' });
 
-export const fetchData = () => dispatch => fetchCircuits().then(res => dispatch(storeData(res)));
+// thunks - function that returns a function
+export const fetchCircuitData = () => async (dispatch) => {
+  const circuitData = await fetchCircuits();
+  return dispatch(storeCircuitData(circuitData));
+};
 
+// reducers
 const sessionReducer = (state = false, action) => {
   switch (action.type) {
     case 'INITIALIZE_SESSION':
@@ -19,15 +23,19 @@ const sessionReducer = (state = false, action) => {
   }
 };
 
-const dataReducer = (state = [], action) => {
+const circuitDataReducer = (state = [], action) => {
   switch (action.type) {
-    case 'STORE_DATA':
-      return action.data;
+    case 'STORE_CIRCUIT_DATA':
+      return action.circuitData;
     default:
       return state;
   }
 };
 
-const reducer = combineReducers({ loggedIn: sessionReducer, data: dataReducer });
+// combine reducers and namespace the redux state
+const reducer = combineReducers({
+  loggedIn: sessionReducer,
+  circuitData: circuitDataReducer,
+});
 
 export default initialState => createStore(reducer, initialState, applyMiddleware(thunkMiddleware));

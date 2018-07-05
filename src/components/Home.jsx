@@ -1,11 +1,12 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { fetchData } from '../store';
+import { fetchCircuitData } from '../store';
 
 class Home extends React.Component {
   componentDidMount() {
     if (this.props.circuits.length <= 0) {
-      this.props.fetchData();
+      this.props.fetchCircuitData();
     }
   }
 
@@ -18,6 +19,11 @@ class Home extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>Circuits</title>
+          <meta name="description" content="This is a proof of concept for React SSR, Home" />
+        </Helmet>
+        
         <h2>F1 2018 Season Calendar</h2>
         <ul>{ circuitsList }</ul>
       </div>
@@ -25,14 +31,14 @@ class Home extends React.Component {
   }
 }
 
-Home.serverFetch = fetchData; // static declaration of data requirements
+Home.serverFetch = fetchCircuitData; // static declaration of data requirements
 
 const mapStateToProps = state => ({
-  circuits: state.data,
+  circuits: state.circuitData,
 });
 
 const mapDispatchToProps = {
-  fetchData,
+  fetchCircuitData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
