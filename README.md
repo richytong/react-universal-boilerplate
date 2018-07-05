@@ -12,3 +12,6 @@ Run dev mode with
 ```npm start```
 
 Navigate to `http://localhost:3000`
+
+## Production
+Build production webpack with ```npm run build```
