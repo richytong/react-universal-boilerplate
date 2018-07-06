@@ -19,15 +19,13 @@ app.get('/*', async (req, res) => {
 
   store.dispatch(initializeSession());
 
-  const dataFetchDispatchToStorePromises = routes.reduce((memo = [], route) => {
+  for (const route of routes) {
     const match = matchPath(req.url, route);
     if (match && route.component.dataFetch) {
-      return [...memo, store.dispatch(route.component.dataFetch(match.params))];
+      await store.dispatch(route.component.dataFetch(match.params));
+      break;
     }
-    return memo;
-  }, []);
-
-  await Promise.all(dataFetchDispatchToStorePromises);
+  }
 
   const jsx = (
     <ReduxProvider store={ store }>
