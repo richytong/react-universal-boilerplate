@@ -1,15 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { fetchCircuits, fetchTopAnime, fetchAnimeDetail } from './api';
+import { fetchTopAnime, fetchAnimeDetail } from './api';
 
-// actions
+// actions and thunks - basically actions but as functions - use in same contract as actions `store.dispatch(action)`
 export const initializeSession = () => ({ type: 'INITIALIZE_SESSION' });
-
-// thunks - function that returns a function - use in same contract as actions
-export const fetchCircuitData = () => async (dispatch) => {
-  const data = await fetchCircuits();
-  return dispatch({ data, type: 'STORE_CIRCUIT_DATA' });
-};
 
 export const fetchAnimeData = () => async (dispatch) => {
   const data = await fetchTopAnime();
@@ -28,15 +22,6 @@ const sessionReducer = (state = false, action) => {
   switch (action.type) {
     case 'INITIALIZE_SESSION':
       return true;
-    default:
-      return state;
-  }
-};
-
-const circuitsReducer = (state = [], action) => {
-  switch (action.type) {
-    case 'STORE_CIRCUIT_DATA':
-      return action.data;
     default:
       return state;
   }
@@ -65,7 +50,6 @@ const animeDetailReducer = (state = {}, action) => {
 // combine reducers and namespace the redux state
 const reducer = combineReducers({
   loggedIn: sessionReducer,
-  circuits: circuitsReducer,
   topAnime: topAnimeReducer,
   animeDetail: animeDetailReducer,
 });
