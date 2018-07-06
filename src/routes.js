@@ -3,6 +3,7 @@ import Contact from './components/Contact';
 import Secret from './components/Secret';
 import TopAnime from './components/TopAnime';
 import AnimeDetail from './components/AnimeDetail';
+import NotFound from './components/NotFound';
 
 export default [
   {
@@ -29,5 +30,9 @@ export default [
     path: '/secret',
     component: Secret,
     exact: true,
+  },
+  {
+    path: '*',
+    component: NotFound,
   },
 ];

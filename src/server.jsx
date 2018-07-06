@@ -13,16 +13,21 @@ const app = express();
 
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
+app.get('/favicon.ico', (req, res) => res.send('temporary favicon remove later'));
+
 app.get('/*', async (req, res) => {
   const context = {};
   const store = createStore();
 
   store.dispatch(initializeSession());
 
+  let match;
   for (const route of routes) {
-    const match = matchPath(req.url, route);
-    if (match && route.component.dataFetch) {
-      await store.dispatch(route.component.dataFetch(match.params));
+    match = matchPath(req.url, route);
+    if (match) {
+      if (route.component.dataFetch) {
+        await store.dispatch(route.component.dataFetch(match.params));
+      }
       break;
     }
   }
@@ -39,8 +44,9 @@ app.get('/*', async (req, res) => {
   const reduxState = store.getState();
   const helmetData = Helmet.renderStatic();
   const bundleUrl = `//${req.headers.host}/app.bundle.js`; // serving bundle from this webserver
+  const statusCode = match.path === '*' ? 404 : 200;
 
-  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.writeHead(statusCode, { 'Content-Type': 'text/html' });
   return res.end(`
     <!DOCTYPE html>
     <html>
