@@ -19,11 +19,15 @@ app.get('/*', async (req, res) => {
 
   store.dispatch(initializeSession());
 
-  const dataFetchPromises = routes // filter matching paths and dispatch data requirements
-  .filter(route => route.component.serverFetch && matchPath(req.url, route))
-  .map(route => store.dispatch(route.component.serverFetch()));
+  const dataFetchDispatchToStorePromises = routes.reduce((memo = [], route) => {
+    const match = matchPath(req.url, route);
+    if (match && route.component.dataFetch) {
+      return [...memo, store.dispatch(route.component.dataFetch(match.params))];
+    }
+    return memo;
+  }, []);
 
-  await Promise.all(dataFetchPromises);
+  await Promise.all(dataFetchDispatchToStorePromises);
 
   const jsx = (
     <ReduxProvider store={ store }>
@@ -36,9 +40,9 @@ app.get('/*', async (req, res) => {
   const reactDom = renderToString(jsx);
   const reduxState = store.getState();
   const helmetData = Helmet.renderStatic();
+  const bundleUrl = `//${req.headers.host}/app.bundle.js`; // serving bundle from this webserver
 
   res.writeHead(200, { 'Content-Type': 'text/html' });
-
   return res.end(`
     <!DOCTYPE html>
     <html>
@@ -53,7 +57,7 @@ app.get('/*', async (req, res) => {
       <script>
         window.REDUX_DATA = ${JSON.stringify(reduxState)}
       </script>
-      <script src="./app.bundle.js"></script>
+      <script src="${bundleUrl}"></script>
     </body>
     </html>
   `);

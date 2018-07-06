@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { fetchAnimeData } from '../store';
 
-class Anime extends React.Component {
+class TopAnime extends React.Component {
   componentDidMount() {
     if (this.props.topAnime.length <= 0) {
       this.props.fetchAnimeData();
@@ -15,7 +16,7 @@ class Anime extends React.Component {
 
     const topAnimeList = topAnime.map(({ mal_id, rank, title, url, image_url }) => (
       <li key={ mal_id }>
-        <p>{ rank } | <a href={url}>{title}</a></p>
+        <p>{ rank } | <Link to={`/anime/${mal_id}`}>{title}</Link></p>
         <img src={ image_url } />
       </li>
     ));
@@ -34,7 +35,7 @@ class Anime extends React.Component {
   }
 }
 
-Anime.serverFetch = fetchAnimeData;
+TopAnime.dataFetch = fetchAnimeData;
 
 const mapStateToProps = state => ({
   topAnime: state.topAnime,
@@ -44,4 +45,4 @@ const mapDispatchToProps = {
   fetchAnimeData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Anime);
+export default connect(mapStateToProps, mapDispatchToProps)(TopAnime);

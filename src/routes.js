@@ -2,7 +2,8 @@ import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
 import Secret from './components/Secret';
-import Anime from './components/Anime';
+import TopAnime from './components/TopAnime';
+import AnimeDetail from './components/AnimeDetail';
 
 export default [
   {
@@ -26,8 +27,12 @@ export default [
     exact: true,
   },
   {
-    path: '/anime',
-    component: Anime,
+    path: '/top-anime',
+    component: TopAnime,
     exact: true,
+  },
+  {
+    path: '/anime/:malId',
+    component: AnimeDetail,
   },
 ];

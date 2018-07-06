@@ -31,7 +31,7 @@ class Home extends React.Component {
   }
 }
 
-Home.serverFetch = fetchCircuitData; // static declaration of data requirements
+Home.dataFetch = fetchCircuitData; // static declaration of data requirements
 
 const mapStateToProps = state => ({
   circuits: state.circuits,
