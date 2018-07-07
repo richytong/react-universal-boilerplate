@@ -62,7 +62,6 @@ AnimeDetail.dataFetch = fetchAnimeDetailData;
 
 const mapStateToProps = state => ({
   animeDetail: state.animeDetail.data,
-  malId: state.animeDetail.malId
 });
 
 const mapDispatchToProps = {
