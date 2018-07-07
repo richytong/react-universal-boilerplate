@@ -7,7 +7,7 @@
     "start": "npm-run-all --parallel server client",
     "server": "babel-watch ./src/server.jsx",
     "client": "webpack --watch --progress --mode development",
-    "lint": "eslint src test webpack.config.js"
+    "lint": "eslint --ext .jsx --ext .js ./src ./test ./webpack.config.js"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
@@ -17,6 +17,7 @@
     "react-helmet": "^5.2.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-waypoint": "^8.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },

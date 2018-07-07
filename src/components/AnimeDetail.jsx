@@ -1,14 +1,13 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchAnimeDetailData, resetAnimeDetailData } from '../store';
 import NotFound from './NotFound';
 
-const exists = val => typeof val !== 'undefined';
-
 class AnimeDetail extends React.Component {
   componentDidMount() {
-    if (!exists(this.props.animeDetail)) {
+    if (Object.keys(this.props.animeDetail).length === 0) {
       const { malId } = this.props.match.params;
       this.props.fetchAnimeDetailData({ malId });
     }
@@ -19,9 +18,7 @@ class AnimeDetail extends React.Component {
   }
 
   render() {
-    const { animeDetail = {}, match = {}} = this.props;
-    const { malId } = match.params;
-
+    const { animeDetail = {} } = this.props;
     const {
       title,
       episodes,
@@ -36,9 +33,7 @@ class AnimeDetail extends React.Component {
     } = animeDetail;
 
     if (error) {
-      if (this.props.staticContext) { // this will be undefined on the client
-        this.props.staticContext.status = 404;
-      }
+      this.props.staticContext.status = 404;
       return <NotFound />;
     }
 
@@ -48,12 +43,12 @@ class AnimeDetail extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>{ `Top Anime: ${title ? title : ''}` }</title>
+          <title>{ `Top Anime: ${title || ''}` }</title>
           <meta name="description" content={ title } />
         </Helmet>
 
         <h2><a href={ linkCanonical }>{ title }</a></h2>
-        <img src={ imageUrl } />
+        <img src={ imageUrl } alt={ title } />
         { episodes && <p>Episodes: { episodes }</p> }
         { status && <p>Status: { status }</p> }
         { synopsis && <p>Synopsis:</p> }
@@ -71,8 +66,20 @@ class AnimeDetail extends React.Component {
 
 AnimeDetail.dataFetch = fetchAnimeDetailData;
 
+AnimeDetail.propTypes = {
+  animeDetail: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  staticContext: PropTypes.object,
+  fetchAnimeDetailData: PropTypes.func.isRequired,
+  resetAnimeDetailData: PropTypes.func.isRequired,
+};
+
+AnimeDetail.defaultProps = {
+  staticContext: {},
+};
+
 const mapStateToProps = state => ({
-  animeDetail: state.animeDetail.data,
+  animeDetail: state.animeDetail,
 });
 
 const mapDispatchToProps = {

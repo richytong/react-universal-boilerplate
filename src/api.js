@@ -1,14 +1,18 @@
 import fetch from 'isomorphic-fetch';
 
-export const fetchTopAnime = async () => {
-  const res = await fetch('https://api.jikan.moe/top/anime');
-  const jsonData = await res.json();
-  return jsonData.top;
+export const fetchTopAnime = async (page) => {
+  const res = await fetch(`https://api.jikan.moe/top/anime/${page}`);
+  const data = await res.json();
+  return data.top.map(({ rank, title, mal_id, image_url }) => ({
+    rank,
+    title,
+    malId: mal_id,
+    imageUrl: image_url,
+  }));
 };
 
 export const fetchAnimeDetail = async (malId) => {
   const res = await fetch(`https://api.jikan.moe/anime/${malId}`);
-  const jsonData = await res.json();
 
   const {
     title,
@@ -21,7 +25,7 @@ export const fetchAnimeDetail = async (malId) => {
     image_url: imageUrl,
     opening_theme: openingThemes,
     ending_theme: endingThemes,
-  } = jsonData;
+  } = await res.json();
 
   return {
     title,

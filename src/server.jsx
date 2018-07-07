@@ -23,7 +23,8 @@ app.get('/*', async (req, res) => {
     match = matchPath(req.url, route);
     if (match) {
       if (route.component.dataFetch) {
-        await store.dispatch(route.component.dataFetch(match.params));
+        const params = Object.keys(match.params).length === 0 ? undefined : match.params;
+        await store.dispatch(route.component.dataFetch(params));
       }
       break;
     }

@@ -54,5 +54,7 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-await-in-loop': 'off',
     'require-await': 'error',
+    'object-curly-newline': 'off',
+    'camelcase': 'off',
   },
 };
