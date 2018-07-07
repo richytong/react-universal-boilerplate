@@ -12,8 +12,7 @@ import createStore, { initializeSession } from './store';
 const app = express();
 
 app.use(express.static(path.resolve(__dirname, '../dist')));
-
-app.get('/favicon.ico', (req, res) => res.send('temporary favicon remove later'));
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.get('/*', async (req, res) => {
   const context = {};

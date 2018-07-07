@@ -39,7 +39,7 @@ class AnimeDetail extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>{ title }</title>
+          <title>{ `Top Anime: ${title ? title : ''}` }</title>
           <meta name="description" content={ title } />
         </Helmet>
 
