@@ -2,6 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { fetchAnimeDetailData, resetAnimeDetailData } from '../store';
+import NotFound from './NotFound';
 
 const exists = val => typeof val !== 'undefined';
 
@@ -31,7 +32,15 @@ class AnimeDetail extends React.Component {
       imageUrl,
       openingThemes = [],
       endingThemes = [],
+      error,
     } = animeDetail;
+
+    console.log('this.props', this.props);
+
+    if (error) {
+      this.props.staticContext.status = 404;
+      return <NotFound />;
+    }
 
     const openingThemesList = openingThemes.map(openingTheme => <li key={ openingTheme }>{ openingTheme }</li>);
     const endingThemesList = endingThemes.map(endingTheme => <li key={ endingTheme }>{ endingTheme }</li>);

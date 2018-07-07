@@ -22,6 +22,7 @@ export const fetchAnimeDetail = async (malId) => {
     status,
     synopsis,
     background,
+    error,
     link_canonical: linkCanonical,
     image_url: imageUrl,
     opening_theme: openingThemes,
@@ -38,5 +39,6 @@ export const fetchAnimeDetail = async (malId) => {
     imageUrl,
     openingThemes,
     endingThemes,
+    error,
   };
 };

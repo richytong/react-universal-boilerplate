@@ -43,7 +43,7 @@ app.get('/*', async (req, res) => {
   const reduxState = store.getState();
   const helmetData = Helmet.renderStatic();
   const bundleUrl = `//${req.headers.host}/app.bundle.js`; // serving bundle from this webserver
-  const statusCode = match.path === '*' ? 404 : 200;
+  const statusCode = context.status || 200;
 
   res.writeHead(statusCode, { 'Content-Type': 'text/html' });
   return res.end(`
