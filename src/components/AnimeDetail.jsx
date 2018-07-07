@@ -19,7 +19,7 @@ class AnimeDetail extends React.Component {
   }
 
   render() {
-    const { animeDetail = {}, match = {} } = this.props;
+    const { animeDetail = {}, match = {}} = this.props;
     const { malId } = match.params;
 
     const {
@@ -35,10 +35,10 @@ class AnimeDetail extends React.Component {
       error,
     } = animeDetail;
 
-    console.log('this.props', this.props);
-
     if (error) {
-      this.props.staticContext.status = 404;
+      if (this.props.staticContext) { // this will be undefined on the client
+        this.props.staticContext.status = 404;
+      }
       return <NotFound />;
     }
 
@@ -60,7 +60,9 @@ class AnimeDetail extends React.Component {
         <p>{ synopsis }</p>
         { background && <p>Background:</p> }
         <p>{ background }</p>
+        { openingThemesList.length > 0 && <p>Opening themes:</p> }
         <ul>{ openingThemesList }</ul>
+        { endingThemesList.length > 0 && <p>Ending themes:</p> }
         <ul>{ endingThemesList }</ul>
       </div>
     );

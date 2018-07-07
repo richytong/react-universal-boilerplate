@@ -3,8 +3,6 @@ import thunkMiddleware from 'redux-thunk';
 import { fetchTopAnime, fetchAnimeDetail } from './api';
 
 // actions and thunks - basically actions but as functions - use in same contract as actions `store.dispatch(action)`
-export const initializeSession = () => ({ type: 'INITIALIZE_SESSION' });
-
 export const fetchAnimeData = () => async (dispatch) => {
   const data = await fetchTopAnime();
   return dispatch({ data, type: 'FETCH_ANIME_DATA' });
@@ -18,15 +16,6 @@ export const fetchAnimeDetailData = ({ malId }) => async (dispatch) => {
 export const resetAnimeDetailData = () => ({ type: 'RESET_ANIME_DETAIL_DATA' });
 
 // reducers
-const sessionReducer = (state = false, action) => {
-  switch (action.type) {
-    case 'INITIALIZE_SESSION':
-      return true;
-    default:
-      return state;
-  }
-};
-
 const topAnimeReducer = (state = [], action) => {
   switch (action.type) {
     case 'FETCH_ANIME_DATA':
@@ -49,7 +38,6 @@ const animeDetailReducer = (state = {}, action) => {
 
 // combine reducers and namespace the redux state
 const reducer = combineReducers({
-  loggedIn: sessionReducer,
   topAnime: topAnimeReducer,
   animeDetail: animeDetailReducer,
 });

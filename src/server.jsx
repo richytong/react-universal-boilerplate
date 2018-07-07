@@ -7,7 +7,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import Helmet from 'react-helmet';
 import routes from './routes';
 import Layout from './components/Layout';
-import createStore, { initializeSession } from './store';
+import createStore from './store';
 
 const app = express();
 
@@ -17,8 +17,6 @@ app.use(express.static(path.resolve(__dirname, '../public')));
 app.get('/*', async (req, res) => {
   const context = {};
   const store = createStore();
-
-  store.dispatch(initializeSession());
 
   let match;
   for (const route of routes) {
